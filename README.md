@@ -2,7 +2,9 @@
 
 A minimal Windows x64 FFmpeg package for [CS DemoDesk](https://github.com/noih/cs-demodesk), retaining only the libraries and media-processing features the app needs.
 
-Includes `ffmpeg`, `ffprobe`, and shared libraries for H.264, H.265, and AV1 encoding on CPU or compatible NVIDIA GPUs, plus the video and audio processing required for recording and exporting clips.
+Includes `ffmpeg`, `ffprobe`, and shared libraries for H.264, H.265, and AV1 encoding on CPU or compatible NVIDIA or AMD GPUs. NVIDIA uses NVENC; AMD uses AMF through the Windows D3D11 device path. The package also includes the video and audio processing required for recording and exporting clips.
+
+AMD AMF encoding requires a compatible AMD display driver installed on the machine. The `h264_amf`, `hevc_amf`, and `av1_amf` encoders are included, although AV1 is only available on supported AMD GPU generations. GPU availability is not required for the binaries to load; the smoke test checks that the encoder components are present, not that a GPU is attached.
 
 Based on [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds), with unused components removed to reduce download size.
 

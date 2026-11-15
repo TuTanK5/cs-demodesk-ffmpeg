@@ -12,7 +12,8 @@ Push-Location $output
 try {
     $encoders = (& $ffmpeg -hide_banner -encoders 2>&1) -join "`n"
     if ($LASTEXITCODE -ne 0) { throw 'Cannot load FFmpeg' }
-    foreach ($codec in 'libx264', 'libx265', 'libsvtav1', 'h264_nvenc', 'hevc_nvenc', 'av1_nvenc') {
+    foreach ($codec in 'libx264', 'libx265', 'libsvtav1', 'h264_nvenc', 'hevc_nvenc', 'av1_nvenc',
+        'h264_amf', 'hevc_amf', 'av1_amf') {
         if ($encoders -notmatch "\b$codec\b") { throw "Missing encoder: $codec" }
     }
     # HLAE adds setsar itself, so file-to-file encoding alone cannot validate capture compatibility.
@@ -76,7 +77,7 @@ try {
     Run @('-i','joined.mp4','-i','audio.wav','-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-shortest','remux.mp4')
     Run @('-f','lavfi','-i','color=size=320x180:rate=30','-frames:v','3','-c:v','libx264','-f','null','NUL')
     Write-Host "HLAE pipe capture, CPU encoding, two-pass, decoding, audio and concat passed. Logs: $output"
-    Write-Host 'NVENC encoders are present; actual GPU encoding remains a hardware integration check.'
+    Write-Host 'NVENC and AMF encoders are present; actual GPU encoding remains a hardware integration check.'
 } finally {
     Pop-Location
 }

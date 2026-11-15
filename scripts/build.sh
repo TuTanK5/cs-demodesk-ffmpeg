@@ -13,7 +13,7 @@ cp "$root/scripts/minimal.sh" addins/demodesk.sh
 # Keep upstream dependency recipes and their transitive toolchain dependencies.
 cat > scripts.d/zz-final.sh <<'EOF'
 SCRIPT_SKIP=1
-ffbuild_depends() { printf '%s\n' x264 x265 svtav1 dav1d ffnvcodec; }
+ffbuild_depends() { printf '%s\n' x264 x265 svtav1 dav1d ffnvcodec amf; }
 ffbuild_enabled() { return 0; }
 ffbuild_dockerfinal() { return 0; }
 EOF
